@@ -1,0 +1,111 @@
+<!doctype html>
+<html>
+        <head>
+        <title>NSA Crypto - URL Generator</title>
+
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href='css/simplex.css' rel="stylesheet">
+        <link href='css/file.css' rel="stylesheet">
+        <!-- <link href="css/lumen.css" rel="stylesheet"> -->
+
+        <script src="js/sha256.js"></script>
+        <script src="js/angular.js"></script>
+        <script src="js/jquery.min.js" defer></script>
+        <script src="js/angular-route.js" defer></script>
+        <script src="js/bootstrap.min.js" defer></script>
+        <script src="js/angular-animate.js" defer></script>
+        <script src="js/angular-cookies.js" defer></script>
+        <script src="js/angular-resource.js" defer></script>
+        <script src="js/angular-ui-bootstrap.js" defer></script>
+        <script>
+        
+        var app = angular.module('LinkGenerator', []);
+        </script>
+
+        <script src="js/GeneratorController.js"></script>
+    </head>
+
+    <body ng-app="LinkGenerator"  ng-controller="GeneratorController" style="padding: 12px;">
+
+        <div class="page-header">
+                    <div style="text-align: center;">
+                        <h1>Security Engineering MOOC URL Generator.</h1>
+                    </div>
+                </div><br />
+
+        <div class="panel panel-default">
+            <div class="panel-heading">URL Generator</div>
+            <div class="panel-body">
+
+                <div class="row">
+                <div class="from-horizontal">
+                    <div class="row form-group">
+                        <div class="col-sm-2 input-label">Message</div>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" ng-model="message" placeholder="Your message" ng-change="update()" rows=3 >
+                            </textarea>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-sm-2 input-label">Cipher Map</div>
+                        <div class="col-sm-10">
+                            <div class="input-group">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button" ng-click="genMap()">Generate</button>
+                                </span>
+                                <input type="text" class="form-control" ng-model="mapString" disabled>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-sm-2 input-label">Ciphered Message</div>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" ng-model="cipher" rows=3 disabled>
+                            </textarea>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-sm-2 input-label">Hash Salt</div>
+                        <div class="col-sm-10">
+                            <div class="input-group">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button" ng-click="genSalt()">Generate</button>
+                                </span>
+                                <input type="text" class="form-control" ng-model="salt" disabled>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-sm-2 input-label">Checksum</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" ng-model="checksum" rows=3 disabled>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-sm-2 input-label">Base URL</div>
+                        <div class="col-sm-10">
+                            <div class="input-group">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button" ng-click="getURLBase()" >Reset</button>
+                                </span>
+                                <input type="text" class="form-control" ng-model="urlBase" ng-change="update()" >
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+
+                <div class="row">
+                <div class="panel panel-info">
+                    <div class="panel-heading">Generated Link</div>
+                    <div class="panel-body" style="word-wrap: break-word;">
+                        <a ng-href="{{fullLink}}" target="__blank">{{fullLink}}</a>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
+
+

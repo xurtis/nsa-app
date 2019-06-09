@@ -1,0 +1,137 @@
+<!doctype html>
+<html>
+        <head>
+        <title>NSA Crypto</title>
+
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href='css/simplex.css' rel="stylesheet">
+        <link href='css/file.css' rel="stylesheet">
+        <!-- <link href="css/lumen.css" rel="stylesheet"> -->
+
+        <script src="js/sha256.js"></script>
+        <script src="js/angular.js"></script>
+        <script src="js/jquery.min.js" defer></script>
+        <script src="js/angular-route.js" defer></script>
+        <script src="js/bootstrap.min.js" defer></script>
+        <script src="js/angular-animate.js" defer></script>
+        <script src="js/angular-cookies.js" defer></script>
+        <script src="js/angular-resource.js" defer></script>
+        <script src="js/angular-ui-bootstrap.js" defer></script>
+        <script>
+        
+        var app = angular.module('ProductApp', ['ngResource', 'ngRoute', 'ngCookies','ngAnimate', 'ui.bootstrap', 'ProductServices']);
+        </script>
+
+        <script src="js/ProductServices.js"></script>
+        <script src="js/ProductController2.js"></script>
+
+        <style>
+            .cipher-letter {
+                overflow: hidden;
+                float: left;
+                cursor: pointer;
+            }
+            .cipher-letter:hover {
+                text-shadow: 0 0 4px rgba(64, 192, 255, 0.8);
+            }
+
+            .cipher-letter .letter-cipher,
+            .cipher-letter .letter-crack {
+                min-height: 1.6em;
+            }
+
+
+            .cipher-letter.letter-bold {
+                font-weight: bold;
+            }
+
+            .cipher-line {
+                float: none;
+                margin: 0 auto;
+                overflow: hidden;
+                font-size: 18pt;
+                text-align: center;
+            }
+
+            .cipher-word {
+                margin-right: 0.8em;
+                overflow: hidden;
+                display: inline-block;
+            }
+        </style>
+    </head>
+
+    <body ng-app="ProductApp"  ng-controller="ProductController" ng-keypress="shiftJump($event)" style="padding: 12px; margin: 8px auto; max-width: 1120px;">
+
+        <div class="page-header">
+            <div class="row">
+                <div class="col-sm-10 col-sm-offset-1">
+
+                <!-- Hello and welcome to the source code, I expected to see a few of you here I'm probably going to put a challenge in the site at some point too, maybe a password here -->
+                <!-- Wrong login details (wait, why is this here?)-->
+                    <div style="text-align: center;">
+                        <big>
+                            Welcome to the <strong><a href="https://www.openlearning.com/courses/sec">Security Engineering MOOC</a></strong> Crypto Challenge bot
+                        </big>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+
+        <div class="panel panel-default">
+            <!--div class="panel-heading text-center">Message</div-->
+            <div class="panel-body">
+                <div ng-repeat="line in lines track by $index" class="cipher-line row">
+                    <div ng-repeat="word in line track by $index" class="cipher-word">
+                        <div ng-repeat="letter in word track by $index" ng-class="{'letter-bold': showBold == letter}" ng-click="letterSelect(letter)" class="cipher-letter">
+                            <div class="letter-cipher">{{encipher(letter, crack)}}</div>
+                            <div class="letter-crack" >{{letter}}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" ng-show="verified">
+                    <div class="alert alert-success" role="alert"><strong>Cipher solved!</strong> You are awesome! You solved the cipher: <br /> {{decipher}}</div>
+                </div>
+            </div>
+        </div>
+
+     
+        <div class="panel panel-default">
+            <!--div class="panel-heading text-center">Decipher</div-->
+            <div class="panel-body">
+                <div class="row" ng-show="enableJump">
+                    <div class="alert alert-info" role="alert"><strong>Jump enabled.</strong> Use <code>Shift+&lt;Letter&gt;</code> to jump that input. You must enter letters in lowercase</div>
+                </div>
+
+                <div class="row">
+                    <div class="btn-group" role="group">
+                        <button class="btn btn-default" ng-click="clear_screen()">Clear</button>
+                        <button class="btn btn-success" ng-click="toggleJump()" ng-show="enableJump">Disable Jump</button>
+                        <button class="btn btn-default" ng-click="toggleJump()" ng-show="!enableJump">Enable Jump</button>
+                        <button class="btn btn-default" ng-disabled="!changeCipher" ng-click="newCipher()">Change Cipher</button>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="row" ng-repeat="row in letters">
+                    <div class="col-sm-4 input_box" ng-repeat="letter in row">
+                        <div class="input-group">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default letter_button" type="button" ng-click="letterSelect(letter)" >{{letter}}</button>
+                            </span>
+                            <input type="text" class="form-control input_box" ng-class="letter + '-input'" placeholder="{{crack[letter]}}"  ng-disabled="!used[letter]" ng-click="bold(letter)" ng-model="crack[letter]" ng-change="genLines()">
+                        </div><!-- /input-group -->
+                    </div><!-- /.col-lg-6 -->
+                </div><!-- /.row -->
+            </div>
+        </div>
+
+
+
+   
+          
+    </body>
+</html>
+
+
